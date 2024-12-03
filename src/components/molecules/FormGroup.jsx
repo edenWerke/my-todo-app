@@ -8,7 +8,7 @@ const FormGroup = ({ taskText, setTaskText, addTask }) => (
       onChange={(e) => setTaskText(e.target.value)}
       placeholder="Enter a new task"
     />
-    <Button onClick={addTask} >Add</Button>
+    <Button onClick={addTask}>Add</Button>
   </div>
 );
 
