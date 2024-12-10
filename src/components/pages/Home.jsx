@@ -1,15 +1,16 @@
 // src/pages/Home.js
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import FormGroup from "../molecules/FormGroup";
 import TaskList from "../organisms/TaskList";
-import Modal from "../molecules/Modal"; // Import the Modal
+import Modal from "../molecules/Modal";
 
 const Home = () => {
   const [tasks, setTasks] = useState([]);
   const [taskText, setTaskText] = useState("");
+  const [searchText, setSearchText] = useState(""); // State for search input
   const [isEditing, setIsEditing] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const savedTasks = localStorage.getItem("tasks");
@@ -47,26 +48,44 @@ const Home = () => {
   const startEditing = (task) => {
     setIsEditing(true);
     setCurrentTask(task);
-    setIsModalOpen(true); // Open the modal when editing starts
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    setIsModalOpen(false); // Close the modal
+    setIsModalOpen(false);
     setIsEditing(false);
     setCurrentTask(null);
   };
 
+  const filteredTasks = tasks.filter((task) =>
+    task.text.toLowerCase().includes(searchText.toLowerCase())
+  );
+
   return (
-    <div className="p-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4 text-center">To-Do App</h1>
+    <div className="max-w-md p-4 mx-auto">
+      <h1 className="mb-4 text-2xl font-bold text-center">To-Do App</h1>
+
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Search tasks..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          className="w-full p-2 mb-2 border rounded"
+        />
+      </div>
+
       <FormGroup
         taskText={taskText}
         setTaskText={setTaskText}
         addTask={isEditing ? updateTask : addTask}
       />
-      <TaskList tasks={tasks} onDelete={deleteTask} onEdit={startEditing} />
+      <TaskList
+        tasks={filteredTasks}
+        onDelete={deleteTask}
+        onEdit={startEditing}
+      />
 
-      {/* Conditionally render the modal */}
       {isModalOpen && (
         <Modal task={currentTask} onUpdate={updateTask} onClose={closeModal} />
       )}
