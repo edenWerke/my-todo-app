@@ -304,12 +304,12 @@ const Home = () => {
 
   return (
     <div
-      className={`max-w-md p-4 mx-auto ${
+      className={`max-w-md p-4 mx-auto rounded-md ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
       }`}
     >
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">To-Do App 📝</h1>
+        <h1 className="text-2xl font-bold">Tso-Do App 📝</h1>
         <button
           onClick={toggleTheme}
           className="p-2 bg-gray-200 rounded-full dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
